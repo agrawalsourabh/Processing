@@ -40,6 +40,27 @@ class Mover{
         }
     }
 
+    // with perlin noise
+    void updateWithNoise(float t){
+
+        float d = noise(t);
+        d = map(d, 0, 1, 0, 0.2);
+
+        aVelocity = aVelocity + aAcceleration;
+        theta = theta + aVelocity;
+
+        aVelocity = constrain(aVelocity, 0.001, 0.01);
+
+        if(r <= 0){
+            aAcceleration = 0.0;
+            aVelocity = 0.0;
+            r = 0.0;
+        }
+        else{
+             r = r-d;
+        }
+    }
+
     void display(){
 
         float x = r*cos(theta);

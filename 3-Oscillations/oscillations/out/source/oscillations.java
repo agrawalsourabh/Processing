@@ -15,19 +15,23 @@ import java.io.IOException;
 public class oscillations extends PApplet {
 
 Mover[] movers;
+float t;
 public void setup() {
     
     movers = new Mover[1];
+    t = 0;
     reset();
 }
 
 public void draw() {
 
     for(Mover m : movers){
-        m.update();
+        // m.update();
+        m.updateWithNoise(t);
         m.display();
     }
     
+    t += 0.1f;
 }
 
 public void mousePressed() {
@@ -81,6 +85,27 @@ class Mover{
         }
         else{
              r = r-delta;
+        }
+    }
+
+    // with perlin noise
+    public void updateWithNoise(float t){
+
+        float d = noise(t);
+        d = map(d, 0, 1, 0, 0.2f);
+
+        aVelocity = aVelocity + aAcceleration;
+        theta = theta + aVelocity;
+
+        aVelocity = constrain(aVelocity, 0.001f, 0.01f);
+
+        if(r <= 0){
+            aAcceleration = 0.0f;
+            aVelocity = 0.0f;
+            r = 0.0f;
+        }
+        else{
+             r = r-d;
         }
     }
 

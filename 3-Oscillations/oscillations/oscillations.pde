@@ -1,17 +1,21 @@
 Mover[] movers;
+float t;
 void setup() {
     size(700, 512);
     movers = new Mover[1];
+    t = 0;
     reset();
 }
 
 void draw() {
 
     for(Mover m : movers){
-        m.update();
+        // m.update();
+        m.updateWithNoise(t);
         m.display();
     }
     
+    t += 0.1;
 }
 
 void mousePressed() {
